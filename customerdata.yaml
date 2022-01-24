@@ -1,0 +1,12 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  generation: 1
+  name: customer-data
+  namespace: pam-camel-demo
+spec:
+  config: {}
+  partitions: 1
+  replicas: 1
+  topicName: customer-data
+
