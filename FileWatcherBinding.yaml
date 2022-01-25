@@ -1,0 +1,30 @@
+apiVersion: camel.apache.org/v1alpha1
+kind: KameletBinding
+metadata:
+  name: file-watch-source-binding
+  namespace: pam-camel-demo
+spec:
+  sink:
+    properties:
+      brokers: 'my-cluster-kafka-brokers:9092'
+      topic: process-topic
+    ref:
+      apiVersion: camel.apache.org/v1alpha1
+      kind: Kamelet
+      name: kafka-not-secured-sink
+  source:
+    properties:
+      events: CREATE
+      filePath: /tmp
+    ref:
+      apiVersion: camel.apache.org/v1alpha1
+      kind: Kamelet
+      name: file-watch-source
+  steps:
+    - properties:
+        name: Content-Type
+        value: application/json
+      ref:
+        apiVersion: camel.apache.org/v1alpha1
+        kind: Kamelet
+        name: insert-header-action

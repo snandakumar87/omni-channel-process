@@ -1,0 +1,23 @@
+apiVersion: camel.apache.org/v1alpha1
+kind: KameletBinding
+metadata:
+  name: jms-amqp-10-source-binding
+  namespace: pam-camel-demo
+spec:
+  sink:
+    properties:
+      brokers: 'my-cluster-kafka-brokers:9092'
+      topic: process-topic
+    ref:
+      apiVersion: camel.apache.org/v1alpha1
+      kind: Kamelet
+      name: kafka-not-secured-sink
+  source:
+    properties:
+      destinationName: myqueue
+      destinationType: queue
+      remoteURI: 'amqp://ex-aao-amqp-0-svc:5672'
+    ref:
+      apiVersion: camel.apache.org/v1alpha1
+      kind: Kamelet
+      name: jms-amqp-10-source
