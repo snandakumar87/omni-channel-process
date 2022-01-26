@@ -1,0 +1,33 @@
+apiVersion: camel.apache.org/v1alpha1
+kind: KameletBinding
+metadata:
+  name: kafka-source-binding
+  namespace: pam-camel-demo
+spec:
+  sink:
+    ref:
+      apiVersion: kafka.strimzi.io/v1beta1
+      kind: KafkaTopic
+      name: process-topic
+  source:
+    properties:
+      brokers: 'my-cluster-kafka-brokers:9092'
+      topic: customer-data
+    ref:
+      apiVersion: camel.apache.org/v1alpha1
+      kind: Kamelet
+      name: kafka-not-secured-source
+  steps:
+    - properties:
+        field: name
+      ref:
+        apiVersion: camel.apache.org/v1alpha1
+        kind: Kamelet
+        name: extract-field-action
+    - properties:
+        name: Content-Type
+        value: application/json
+      ref:
+        apiVersion: camel.apache.org/v1alpha1
+        kind: Kamelet
+        name: insert-header-action
