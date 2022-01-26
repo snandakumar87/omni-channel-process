@@ -20,11 +20,4 @@ spec:
       apiVersion: camel.apache.org/v1alpha1
       kind: Kamelet
       name: file-watch-source
-  steps:
-    - properties:
-        name: Content-Type
-        value: application/json
-      ref:
-        apiVersion: camel.apache.org/v1alpha1
-        kind: Kamelet
-        name: insert-header-action
+
